@@ -22,9 +22,15 @@
             <Grid >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 
-                    <UserControl:ButtonType01  Text="Hello" BackgroundOne="#68686B" CornerRadius="10" MarginInterno="8" Margin="10" BackgroundTwo="#B7B3B4">
+                    <UserControl:ButtonType01  Text="Ingreso de Productos" BackgroundOne="#1A1D24" CornerRadius="10" MarginInterno="8" Margin="10" BackgroundTwo="#76777C">
                         <UserControl:ButtonType01.Icon>
-                            <ImageBrush ImageSource="/src/AddProduct.png" Stretch="Fill"/>
+                            <ImageBrush ImageSource="/src/AddProduct.png"/>
+                        </UserControl:ButtonType01.Icon>
+                    </UserControl:ButtonType01>
+
+                    <UserControl:ButtonType01  Text="Banco" BackgroundOne="#1A1D24" CornerRadius="10" MarginInterno="8" Margin="10" BackgroundTwo="#76777C">
+                        <UserControl:ButtonType01.Icon> 
+                            <ImageBrush ImageSource="/src/Money.png"/>
                         </UserControl:ButtonType01.Icon>
                     </UserControl:ButtonType01>
 

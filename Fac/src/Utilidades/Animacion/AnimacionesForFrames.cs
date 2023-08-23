@@ -7,6 +7,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Controls;
+using System.Reflection;
 
 namespace Utilidades.Animacion
 {
@@ -142,13 +143,16 @@ namespace Utilidades.Animacion
             return sb;
         }
 
-        public static Storyboard BorderBackgroundColor(Color from, Color to, Duration duration, TextBlock tb, Storyboard sb)
+        public static Storyboard BorderBackgroundColor(Color from, Color to, Duration duration, Border objeto)
         {
+            Storyboard sb = new();
+
             var animacion = new ColorAnimation(from, to, duration);
 
+            Storyboard.SetTarget(animacion, objeto);
+            Storyboard.SetTargetProperty(animacion, new PropertyPath("(Border.Background).(SolidColorBrush.Color)"));
+
             sb.Children.Add(animacion);
-            Storyboard.SetTarget(animacion, tb);
-            Storyboard.SetTargetProperty(animacion, new PropertyPath("(TextBlock.Foreground).(SolidColorBrush.Color)"));
 
             return sb;
         }

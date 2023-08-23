@@ -8,13 +8,12 @@
              >
     <Grid DataContext="{Binding ElementName=myControl}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="28.033"/>
-            <RowDefinition Height="21.967"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Border Width="50" Height="50" Background="{Binding BackgroundOne}" CornerRadius="{Binding CornerRadius}" Grid.RowSpan="2" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
+        <Border x:Name="border" Width="50" Height="50" Background="{Binding BackgroundOne}" MouseLeftButtonDown="border_MouseLeftButtonDown" CornerRadius="{Binding CornerRadius}" Grid.RowSpan="2" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
             <Grid Background="{Binding Icon}" Margin="{Binding MarginInterno}">
 
             </Grid>
