@@ -9,12 +9,21 @@
 
   <ItemGroup>
     <None Remove="src\AddProduct.png" />
-    <None Remove="src\Money.png" />
+    <None Remove="src\Img\Icons\AddProduct.png" />
+    <None Remove="src\Img\Icons\Money.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="src\AddProduct.png" />
-    <Resource Include="src\Money.png" />
+    <Folder Include="src\Model\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="src\Img\Icons\AddProduct.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="src\Img\Icons\Money.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

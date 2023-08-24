@@ -9,8 +9,12 @@
         mc:Ignorable="d" 
         Title="MainWindow" Height="500" Width="1000" WindowStartupLocation="CenterScreen" WindowStyle="None"
         AllowsTransparency="True" Background="{x:Null}"
+        xmlns:viewModel="clr-namespace:Fac.src.ViewModel"
         >
-    <Grid Background="Transparent">
+    <Window.Resources>
+        <viewModel:MainVM x:Key="viewModel"/>
+    </Window.Resources>
+    <Grid Background="Transparent" DataContext="{Binding Source={StaticResource viewModel}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition/>
@@ -24,13 +28,13 @@
 
                     <UserControl:ButtonType01  Text="Ingreso de Productos" BackgroundOne="#1A1D24" CornerRadius="10" MarginInterno="8" Margin="10" BackgroundTwo="#76777C">
                         <UserControl:ButtonType01.Icon>
-                            <ImageBrush ImageSource="/src/AddProduct.png"/>
+                            <ImageBrush ImageSource="/src/Img/Icons/AddProduct.png"/>
                         </UserControl:ButtonType01.Icon>
                     </UserControl:ButtonType01>
 
-                    <UserControl:ButtonType01  Text="Banco" BackgroundOne="#1A1D24" CornerRadius="10" MarginInterno="8" Margin="10" BackgroundTwo="#76777C">
+                    <UserControl:ButtonType01  Text="Banco" BackgroundOne="#1A1D24" CornerRadius="10" MarginInterno="8" Margin="10" BackgroundTwo="#76777C" Command="{Binding OpenWindowCommand}" CommandParameter="BankWindow">
                         <UserControl:ButtonType01.Icon> 
-                            <ImageBrush ImageSource="/src/Money.png"/>
+                            <ImageBrush ImageSource="/src/Img/Icons/Money.png"/>
                         </UserControl:ButtonType01.Icon>
                     </UserControl:ButtonType01>
 

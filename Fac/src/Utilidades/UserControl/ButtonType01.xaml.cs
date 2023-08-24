@@ -195,7 +195,6 @@ namespace Utilidades.UserControls
             {
                 Command.Execute(CommandParameter);
             }
-            Console.WriteLine("Hola ");
         }
 
     }
