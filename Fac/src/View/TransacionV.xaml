@@ -1,0 +1,67 @@
+﻿<Window x:Name="transacion"
+        x:Class="Fac.src.View.TransacionV"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fac.src.View" 
+        xmlns:UtilidadesUC="clr-namespace:Utilidades.UserControls"
+        xmlns:util="clr-namespace:Utilidades;assembly=Utilidades"
+        xmlns:dcontec="clr-namespace:Fac.src.Dats.Objet"
+        mc:Ignorable="d"
+        WindowStyle="None" Background="Transparent"
+        Title="ChequeV" Height="330" Width="300" WindowStartupLocation="CenterScreen" AllowsTransparency="True"
+        >
+    <Window.Resources>
+        
+        
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="#25282F" CornerRadius="10" Padding="5">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#494F4D"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#41A5E1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Background="Transparent" DataContext="{Binding ElementName=transacion}">
+        <Border Margin="20" Background="#1A1D24" CornerRadius="10">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Direction="0" ShadowDepth="5" Opacity="0.7" BlurRadius="20"/>
+            </Border.Effect>
+            <Grid Background="Transparent">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                    <UtilidadesUC:TextBoxLimText Text="{Binding Transancion.NombreProceso, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TabIndex="1" VisibleCount="Hidden" Margin="5" Height="50" MinWidth="150" Width="200" NameElment="Nombre" HorizontalContentAlignment="Center" Foreground="White" LengthText="30" Return="False" BackgroundOne="#25282F" BorderBrushOne="White"/>
+                    <UtilidadesUC:TextBoxDate x:Name="date1" Date="{Binding Transancion.FechaProceso, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TabIndex="3" Margin="5" Height="50" MinWidth="150" Width="Auto" NameElment="Fecha Emicion" HorizontalContentAlignment="Center" Foreground="White" BackgroundOne="#25282F" BorderBrushOne="White"/>
+                    <UtilidadesUC:TextBoxMoney Money="{Binding Transancion.ValorProceso, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TabIndex="5" Margin="5" Height="50" MinWidth="150" Width="Auto" NameElment="Valor" HorizontalContentAlignment="Center" Foreground="White" BackgroundOne="#25282F" BorderBrushOne="White"/>
+                    <Button Style="{DynamicResource ButtonStyle1}" Margin="0,10" Content="Listo" Width="100" Click="Button_Click"/>
+                </StackPanel>
+                <Grid Grid.Row="0">
+                    <UtilidadesUC:BarraPrincipal BackgroundPro="#2B2B2B" Minimize="False" Maximize="False" Title="{Binding Title}" Foreground="White"  BorderThicknessInter="1,1,1,0" BackgroundButtonOver="#414141" CornerRadius="10,10,0,0" BackgroundButtonClick="#397EA3" Window="{Binding ElementName=transacion}"/>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

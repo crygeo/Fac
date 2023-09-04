@@ -14,7 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="src\Model\" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="UtilidadesCG" Version="1.0.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +25,21 @@
     <Resource Include="src\Img\Icons\Money.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="src\UserControls\TransacionUC.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="src\View\TransacionV.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="src\Datos\cheques.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

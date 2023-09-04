@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace Fac.src.ViewModel
 {
-    public class MainVM
+    public class MainVM : ViewModelBase
     {
         private Dictionary<string, IWindowStrategy> windowStrategies;
         public ICommand OpenWindowCommand { get; set; }

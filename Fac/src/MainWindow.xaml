@@ -13,6 +13,7 @@
         >
     <Window.Resources>
         <viewModel:MainVM x:Key="viewModel"/>
+        
     </Window.Resources>
     <Grid Background="Transparent" DataContext="{Binding Source={StaticResource viewModel}}">
         <Grid.RowDefinitions>

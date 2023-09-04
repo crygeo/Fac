@@ -8,9 +8,9 @@
              xmlns:conver="clr-namespace:Utilidades.Converter"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="800" Background="Transparent">
-
-
+    
     <Grid DataContext="{Binding ElementName=barra}">
+        
         <Border MouseDown="window_Movible" CornerRadius="{Binding CornerRadius}" BorderThickness="{Binding BorderThicknessInter}" BorderBrush="{Binding BorderBrushInter}" Background="{Binding BackgroundPro }">
             <Grid>
                 <Grid.Resources>
@@ -108,10 +108,11 @@
 
                 </DockPanel>
 
-                <TextBlock HorizontalAlignment="Left" Height="16" Margin="6,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="80" Foreground="{DynamicResource Windows.Text}" Text="{Binding Title}"/>
+                <TextBlock HorizontalAlignment="Left" Height="16" Margin="6,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="Auto" Foreground="{Binding Foreground}" Text="{Binding Title}"/>
 
             </Grid>
         </Border>
 
     </Grid>
+
 </UserControl>
