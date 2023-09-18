@@ -1,0 +1,20 @@
+[
+  {
+    "Code": 1,
+    "Puesto": "Facturador",
+    "Nombre": "Geovanny Zambrano",
+    "Dni": "2350946592"
+  },
+  {
+    "Code": 2,
+    "Puesto": "Facturacion",
+    "Nombre": "Alexandra Cujilema ",
+    "Dni": "5694356486"
+  },
+  {
+    "Code": 3,
+    "Puesto": "Secretaria",
+    "Nombre": "Vanessa Soliz",
+    "Dni": "5641065123"
+  }
+]

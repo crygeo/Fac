@@ -24,6 +24,7 @@ namespace Fac.src.ViewModel
             windowStrategies = new Dictionary<string, IWindowStrategy>
             {
                 { "BankWindow", new WindowBankStrategy() },
+                { "PagosWindows", new WindowPagosStrategy() },
             };
 
             OpenWindowCommand = new OpenWindow(windowStrategies);

@@ -40,7 +40,6 @@ namespace Fac.src.Command
                         Title = "Editar Cheque",
                         Cheque = copiaCheque,
                         Command = new EditarChequeFinalizada(originalCheque)
-
                     };
 
                     chequev.Confirm += (sender, e) =>

@@ -9,8 +9,10 @@
 
   <ItemGroup>
     <None Remove="src\AddProduct.png" />
+    <None Remove="src\Img\Icons\AddPersonal.png" />
     <None Remove="src\Img\Icons\AddProduct.png" />
     <None Remove="src\Img\Icons\Money.png" />
+    <None Remove="src\Img\Icons\Prestamo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,10 +21,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="src\Img\Icons\AddPersonal.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="src\Img\Icons\AddProduct.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="src\Img\Icons\Money.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="src\Img\Icons\Prestamo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -31,13 +39,28 @@
     <Compile Update="src\UserControls\TransacionUC.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="src\Utilidades\UserControl\ButtonType02.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="src\View\AgregarAdalantoView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="src\View\TransacionV.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="src\Datos\adelantos.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="src\Datos\cheques.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="src\Datos\personal.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="src\Datos\transaciones.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -39,6 +39,12 @@
                         </UserControl:ButtonType01.Icon>
                     </UserControl:ButtonType01>
 
+                    <UserControl:ButtonType01  Text="Adelanto" BackgroundOne="#1A1D24" CornerRadius="10" MarginInterno="8" Margin="10" BackgroundTwo="#76777C" Command="{Binding OpenWindowCommand}" CommandParameter="PagosWindows">
+                        <UserControl:ButtonType01.Icon>
+                            <ImageBrush ImageSource="/src/Img/Icons/Prestamo.png"/>
+                        </UserControl:ButtonType01.Icon>
+                    </UserControl:ButtonType01>
+
                 </StackPanel>
             </Grid>
         </Border>

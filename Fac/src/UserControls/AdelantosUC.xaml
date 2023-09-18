@@ -1,0 +1,58 @@
+﻿<UserControl x:Name="uc"
+             x:Class="Fac.src.UserControls.AdelantosUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Fac.src.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="400">
+    <Grid DataContext="{Binding ElementName=uc}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <CheckBox  Grid.Column="0" IsChecked="{Binding IsSelected}" VerticalAlignment="Center" Margin="5,0,0,0" Width="50" />
+        <TextBlock Grid.Column="1" Text="{Binding Adelanto.FechaEmicion, StringFormat='yyyy-MM-dd HH'}"/>
+        <TextBlock Grid.Column="1" Text="{Binding Adelanto.Trabajador.Nombre}"/>
+        <TextBlock Grid.Column="1" Text="{Binding Adelanto.SilverPrestamo, StringFormat=C}"/>
+
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <ContextMenu.Resources>
+                    <Style TargetType="{x:Type ContextMenu}">
+                        <Setter Property="Background" Value="#181A1F"/>
+                        <Setter Property="BorderBrush" Value="#25282F"/>
+                    </Style>
+
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="Foreground" Value="#ADB6C8"/>
+                        <Setter Property="Margin" Value="-2,0"/>
+                        <Setter Property="BorderThickness" Value="2"/>
+                        <Setter Property="BorderBrush" Value="#181A1F"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type MenuItem}">
+                                    <DockPanel Height="23" Width="Auto" Background="#181A1F" x:Name="Celd" Margin="1,0">
+                                        <Label Content="{TemplateBinding Header}" Foreground="#CFD2CF" Margin="5,-2,5,0" HorizontalAlignment="Left"/>
+                                        <Label Content="{TemplateBinding InputGestureText}" Foreground="#8E999E" Margin="5,-2,3,0" HorizontalAlignment="Right"/>
+                                    </DockPanel>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Celd" Property="Background" Value="#252A2D"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ContextMenu.Resources>
+                <MenuItem Header="_Editar" InputGestureText="Ctrl + E" Command="{Binding EditarPrestamos}" CommandParameter="{Binding Adelanto}"/>
+                <MenuItem Header="_Eliminar" InputGestureText="Ctrl + D" Command="{Binding DeletePrestamos}" CommandParameter="{Binding Adelanto}"/>
+                <MenuItem Header="{Binding Adelanto.Cancelado, Converter={StaticResource CanceladoConverter}}" InputGestureText="Ctrl + P" Command="{Binding AdelantoCobrado}" CommandParameter="{Binding Adelanto}"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
+    </Grid>
+</UserControl>

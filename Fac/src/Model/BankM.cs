@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
 using System.Windows;
+using Fac.src.Dats;
 
 namespace Fac.src.Model
 {
@@ -16,17 +17,23 @@ namespace Fac.src.Model
         public ObservableCollection<Cheque> _cheques { get; set; }
         public ObservableCollection<Transancion> _transanciones { get; set; }
 
+        private DataManager ChequesDataManager { get; set; }
+        private DataManager TransacionDataManager { get; set; }
+
         public BankM()
         {
-            _cheques = ChequesDataManager.CargarCheques();
-            _transanciones = TransacionesDataManager.CargarTransaciones();
+            ChequesDataManager = new DataManager("src/Datos/cheques.json");
+            TransacionDataManager = new DataManager("src/Datos/transaciones.json");
+
+            _cheques = ChequesDataManager.CargarDatos<Cheque>();
+            _transanciones = TransacionDataManager.CargarDatos<Transancion>();
 
         }
 
         public void GuardarDatos()
         {
-            ChequesDataManager.GuardarCheques(_cheques);
-            TransacionesDataManager.GuardarTransaciones(_transanciones);
+            ChequesDataManager.GuardarDatos(_cheques);
+            TransacionDataManager.GuardarDatos(_transanciones);
         }
 
         public ObservableCollection<Cheque> ObtenerCheques()
@@ -51,85 +58,6 @@ namespace Fac.src.Model
     }
 
 
-    public static class ChequesDataManager
-    {
-        private static readonly string FilePath = "src/Datos/cheques.json";
 
-        public static void GuardarCheques(ObservableCollection<Cheque> cheques)
-        {
-            string json = JsonConvert.SerializeObject(cheques);
-            File.WriteAllText(FilePath, json);
-        }
-
-        public static ObservableCollection<Cheque> CargarCheques()
-        {
-            try
-            {
-
-                if (File.Exists(FilePath))
-                {
-                    string json = File.ReadAllText(FilePath);
-
-                    if (!string.IsNullOrEmpty(json))
-                    {
-                        var veri = JsonConvert.DeserializeObject<ObservableCollection<Cheque>>(json); ;
-                        if (veri != null) return veri;
-                    }
-
-                }
-
-                return new ObservableCollection<Cheque>(); // Retorna una colección vacía si esta vacio el archivo o la URL no existe
-            }
-            catch (FileNotFoundException)
-            {
-                return new ObservableCollection<Cheque>(); // Retorna una colección vacía si el archivo no existe
-            }
-            catch (Exception ex)
-            {
-                //Console.WriteLine(ex.ToString());
-                return new ObservableCollection<Cheque>();
-            }
-        }
-    }
-    public static class TransacionesDataManager
-    {
-        private static readonly string FilePath = "src/Datos/transaciones.json";
-
-        public static void GuardarTransaciones(ObservableCollection<Transancion> transaciones)
-        {
-            string json = JsonConvert.SerializeObject(transaciones);
-            File.WriteAllText(FilePath, json);
-        }
-
-        public static ObservableCollection<Transancion> CargarTransaciones()
-        {
-            try
-            {
-
-                if (File.Exists(FilePath))
-                {
-                    string json = File.ReadAllText(FilePath);
-
-                    if (!string.IsNullOrEmpty(json))
-                    {
-                        var veri = JsonConvert.DeserializeObject<ObservableCollection<Transancion>>(json); ;
-                        if (veri != null) return veri;
-                    }
-
-                }
-
-                return new ObservableCollection<Transancion>(); // Retorna una colección vacía si esta vacio el archivo o la URL no existe
-            }
-            catch (FileNotFoundException)
-            {
-                return new ObservableCollection<Transancion>(); // Retorna una colección vacía si el archivo no existe
-            }
-            catch (Exception ex)
-            {
-                //Console.WriteLine(ex.ToString());
-                return new ObservableCollection<Transancion>();
-            }
-        }
-    }
 
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Fac.src.Dats.Objet
 {
-    public class Cheque : INotifyPropertyChanged
+    public class Cheque 
     {
 
         private DateTime _fechaEmicion;

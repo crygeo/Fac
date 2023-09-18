@@ -54,25 +54,27 @@
                             <Label Grid.Column="5" Content="Estado" Foreground="#D1D1CA" FontWeight="Bold" FontFamily="Bahnschrift"/>
                             <Label Grid.Column="6" Content="Saldo" Foreground="#D1D1CA" FontWeight="Bold" FontFamily="Bahnschrift"/>
                         </Grid>
-                        <ItemsControl Grid.Row="1" ItemsSource="{Binding Cheques}" >
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel IsItemsHost="True"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
+                        <ScrollViewer Grid.Row="1">
+                            <ItemsControl ItemsSource="{Binding Cheques}" >
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel IsItemsHost="True"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
 
-                                    <UserControl:ChequeUC 
+                                        <UserControl:ChequeUC 
                                             Cheque="{Binding}" 
                                             EditCheque="{Binding DataContext.EditarCheque, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" 
                                             DeleteCheque="{Binding DataContext.DeleteCheque, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" 
                                             Selected="{Binding DataContext.ToggleItemSelectionCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
                                             ChequeCobrado="{Binding DataContext.ChequeCobrado, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
                                             />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
                         <Border Grid.Row="2" Background="#1A1D24">
                             <Border.Effect>
                                 <DropShadowEffect Color="Black" Direction="90" ShadowDepth="5" Opacity="0.5" BlurRadius="5" />
