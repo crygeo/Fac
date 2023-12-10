@@ -42,7 +42,7 @@ namespace Fac.src.Command
                 addPersonal = new AgregarPersonalV
                 {
                     Title = "Agregar Personal",
-                    Trabajador = new Trabajador("","",""),
+                    Trabajador = new Trabajador(),
                     Command = new AgregarPersonalFinalizada(trabajadors)
                 };
             }

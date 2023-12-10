@@ -49,6 +49,11 @@ namespace Fac.src.UserControls
                                                                                       typeof(AdelantosUC),
                                                                                       new PropertyMetadata(null));
 
+        public static readonly DependencyProperty ImprimirProperty = DependencyProperty.Register(nameof(Imprimir),
+                                                                                      typeof(ICommand),
+                                                                                      typeof(AdelantosUC),
+                                                                                      new PropertyMetadata(null));
+
         public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register(nameof(IsSelected),
                                                                                      typeof(bool),
                                                                                      typeof(AdelantosUC),
@@ -82,6 +87,12 @@ namespace Fac.src.UserControls
         {
             get { return (ICommand)GetValue(SelectedProperty); }
             set { SetValue(SelectedProperty, value); }
+        }
+
+        public ICommand Imprimir
+        {
+            get { return (ICommand)GetValue(ImprimirProperty); }
+            set { SetValue(ImprimirProperty, value); }
         }
 
         public bool IsSelected

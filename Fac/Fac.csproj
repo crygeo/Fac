@@ -3,8 +3,10 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
+    <PlatformTarget>x64</PlatformTarget>
+    <ApplicationIcon>h (1).ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="h (1).ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="UtilidadesCG" Version="1.0.5" />
   </ItemGroup>
@@ -51,6 +58,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="PDF\Modelo\Documentos.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="PDF\Modelo\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="PDF\Modelo\style.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="src\Datos\adelantos.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -63,6 +79,24 @@
     <None Update="src\Datos\transaciones.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="src\Modelo\Documentos.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="src\Modelo\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="src\Modelo\style.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="src\MySql\ConfigMysql.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="src\Utilidades\Clases\" />
+  </ItemGroup>
+
+
 
 </Project>

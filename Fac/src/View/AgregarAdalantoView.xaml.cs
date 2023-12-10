@@ -1,6 +1,7 @@
 ﻿using Fac.src.Dats.Objet;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,8 +24,17 @@ namespace Fac.src.View
 
         public static readonly DependencyProperty PrestamoProperty = DependencyProperty.Register(nameof(Prestamo),
                                                                                         typeof(PrestamosTrabajador),
+                                                                                        typeof(AgregarAdalantoView));
+
+        public static readonly DependencyProperty ListaEmpleadosProperty = DependencyProperty.Register(nameof(ListaEmpleados),
+                                                                                        typeof(ObservableCollection<Trabajador>),
                                                                                         typeof(AgregarAdalantoView),
-                                                                                        new PropertyMetadata(new Trabajador("", "", "")));
+                                                                                        new PropertyMetadata(new ObservableCollection<Trabajador>()));
+
+        public static readonly DependencyProperty EditableTrabajadorProperty = DependencyProperty.Register(nameof(EditableTrabajador),
+                                                                                        typeof(bool),
+                                                                                        typeof(AgregarAdalantoView),
+                                                                                        new PropertyMetadata(false));
 
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command),
                                                                                         typeof(ICommand),
@@ -38,12 +48,17 @@ namespace Fac.src.View
             set { SetValue(PrestamoProperty, value); }
         }
 
-        public ICommand Command
+        public ObservableCollection<Trabajador> ListaEmpleados
         {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
+            get { return (ObservableCollection<Trabajador>)GetValue(ListaEmpleadosProperty); }
+            set { SetValue(ListaEmpleadosProperty, value); }
         }
 
+        public bool EditableTrabajador
+        {
+            get { return (bool)GetValue(EditableTrabajadorProperty); }
+            set { SetValue(EditableTrabajadorProperty, value); }
+        }
 
         public event EventHandler? Confirm;
         public event EventHandler? Cancel;
@@ -56,13 +71,13 @@ namespace Fac.src.View
         private void ButtonAcepet(object sender, RoutedEventArgs e)
         {
 
-            if (Prestamo.Trabajador == null)
+            if (Prestamo.Trabajador.Nombre == "")
             {
                 MessageBox.Show("Escoje un Trabajador", "Alerta");
                 return;
             }
 
-            if (Prestamo.SilverPrestamo == 0)
+            if (Prestamo.SilverPrestado == 0)
             {
                 MessageBox.Show("Inserte la cantidad a prestar.", "Alerta");
                 return;
@@ -74,8 +89,14 @@ namespace Fac.src.View
                 return;
             }
 
-            Command?.Execute(Prestamo);
-            Confirm?.Invoke(this, new EventArgs());
+            if (Prestamo.FechaCobro == new DateTime())
+            {
+                MessageBox.Show("Inserte Fechas", "Alerta");
+                return;
+            }
+
+            Confirm?.Invoke(Prestamo, new EventArgs());
+
             this.Close();
         }
         private void ButtonCancel(object sender, RoutedEventArgs e)

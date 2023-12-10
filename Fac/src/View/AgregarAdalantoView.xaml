@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Fac.src.View" xmlns:UtilidadesUC="clr-namespace:Utilidades.UserControls"
         mc:Ignorable="d"
-        Title="AgregarPersonal" Height="260" Width="200"
+        Height="310" Width="200"
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         AllowsTransparency="True" Background="{x:Null}">
     <Window.Resources>
@@ -44,18 +44,31 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <UtilidadesUC:BarraPrincipal BackgroundPro="#2B2B2B" Title="Ingresar Personal" Foreground="White"  BorderThicknessInter="1,1,1,0" BorderBrushInter="#FE5050" BackgroundButtonOver="#414141" CornerRadius="5,5,0,0" BackgroundButtonClick="#397EA3" Window="{Binding ElementName=view}"/>
+            <UtilidadesUC:BarraPrincipal BackgroundPro="#2B2B2B" Title="{Binding Title}" Foreground="White"  BorderThicknessInter="1,1,1,0" BorderBrushInter="#FE5050" BackgroundButtonOver="#414141" CornerRadius="5,5,0,0" BackgroundButtonClick="#397EA3" Window="{Binding ElementName=view}"/>
         </Grid>
         <Border Grid.Row="2"  Background="#2B2B2B" BorderBrush="#FE5050" BorderThickness="1,0,1,1" CornerRadius="0,0,5,5">
-            <StackPanel>
-                <UtilidadesUC:TextBoxLimText Text="{Binding Trabajador.Nombre, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VisibleCount="Visible" Margin="5" Height="50" Width="180" MinWidth="160" NameElment="Nombre:" HorizontalContentAlignment="Center" Foreground="White" LengthText="50" Return="False" BackgroundOne="#25282F" BorderBrushOne="White"/>
-                <UtilidadesUC:TextBoxLimText Text="{Binding Trabajador.Dni, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SoloNumeros="True" VisibleCount="Visible" Margin="5" Height="50" Width="180" MinWidth="160" NameElment="Cedula:" HorizontalContentAlignment="Center" Foreground="White" LengthText="10" Return="False" BackgroundOne="#25282F" BorderBrushOne="White"/>
-                <UtilidadesUC:TextBoxLimText Text="{Binding Trabajador.Puesto, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VisibleCount="Visible" Margin="5" Height="50" Width="180" MinWidth="160" NameElment="Puesto:" HorizontalContentAlignment="Center" Foreground="White" LengthText="30" Return="False" BackgroundOne="#25282F" BorderBrushOne="White"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top">
+                    <Label  Margin="20,0,0,0" Content="Empleado:" Foreground="White" FontWeight="Bold"/>
+                    <ComboBox ItemsSource="{Binding ListaEmpleados}" Width="150" Height="25" Margin="5" SelectedItem="{Binding Prestamo.Trabajador}" IsEnabled="{Binding EditableTrabajador}">
+                        <ComboBox.ItemTemplate>
+                            <ItemContainerTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Code}" HorizontalAlignment="Left" Width="25"/>
+                                    <TextBlock Text="{Binding Nombre}" HorizontalAlignment="Right"/>
+                                </StackPanel>
+                            </ItemContainerTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <UtilidadesUC:TextBoxDate Margin="5" NameElment="Fecha Emison:" BackgroundOne="#202532" TextBlock.TextAlignment="Center" BorderBrushOne="#5E6468" Date="{Binding Prestamo.FechaEmicion, Mode=TwoWay}" Height="48" Foreground="White" MaxWidth="170"/>
+                    <UtilidadesUC:TextBoxDate Margin="5" NameElment="Fecha Descuento:" BackgroundOne="#202532" TextBlock.TextAlignment="Center" BorderBrushOne="#5E6468" Date="{Binding Prestamo.FechaCobro, Mode=TwoWay}" Height="48" Foreground="White" MaxWidth="170"/>
+                    <UtilidadesUC:TextBoxMoney Margin="5" NameElment="Saldo a prestar:" BackgroundOne="#202532" TextBlock.TextAlignment="Center" BorderBrushOne="#5E6468" Money="{Binding Prestamo.SilverPrestado, Mode=TwoWay}" Height="48" Foreground="White" MaxWidth="170"/>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Style="{DynamicResource ButtonStyle1}" Content="Aceptar" Width="75" Height="25" Margin="5" Click="ButtonAcepet"/>
                     <Button Style="{DynamicResource ButtonStyle1}" Content="Cancelar" Width="75" Height="25" Margin="5" Click="ButtonCancel"/>
                 </StackPanel>
-            </StackPanel>
+            </DockPanel>
         </Border>
     </Grid>
 </Window>

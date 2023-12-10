@@ -5,19 +5,52 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Fac.src.UserControls"
+              xmlns:convert="clr-namespace:Fac.src.Comberts.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="400">
-    <Grid DataContext="{Binding ElementName=uc}">
+    <UserControl.Resources>
+        <convert:CanceladoConverter x:Key="CanceladoConverter"/>
+        <convert:CanceladoConverterInverso x:Key="CanceladoConverterInverso"/>
+    </UserControl.Resources>
+    <Grid DataContext="{Binding ElementName=uc}"  HorizontalAlignment="Stretch" >
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Setter Property="Background" Value="#1A1D24" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" To="#343A3F" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.EnterActions>
+                        <Trigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" To="#1A1D24" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.ExitActions>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <CheckBox  Grid.Column="0" IsChecked="{Binding IsSelected}" VerticalAlignment="Center" Margin="5,0,0,0" Width="50" />
-        <TextBlock Grid.Column="1" Text="{Binding Adelanto.FechaEmicion, StringFormat='yyyy-MM-dd HH'}"/>
-        <TextBlock Grid.Column="1" Text="{Binding Adelanto.Trabajador.Nombre}"/>
-        <TextBlock Grid.Column="1" Text="{Binding Adelanto.SilverPrestamo, StringFormat=C}"/>
+        
+        <CheckBox  Grid.Column="0" Foreground="White" IsChecked="{Binding IsSelected}" VerticalAlignment="Center" Margin="5,0,0,0" Width="50" />
+        <TextBlock Grid.Column="1" Foreground="White" Text="{Binding Adelanto.Trabajador.Nombre}"/>
+        <TextBlock Grid.Column="2" Foreground="White" Text="{Binding Adelanto.FechaEmicion, StringFormat='yyyy-MM-dd'}" ToolTip="{Binding Adelanto.FechaEmicion}"/>
+        <TextBlock Grid.Column="3" Foreground="White" Text="{Binding Adelanto.FechaCobro, StringFormat='yyyy-MM-dd'}"/>
+        <TextBlock Grid.Column="4" Foreground="White" Text="{Binding Adelanto.SilverPrestado, StringFormat=C}"/>
+        <TextBlock Grid.Column="5" Foreground="White" Text="{Binding Adelanto.Cancelado, Mode=TwoWay, Converter={StaticResource CanceladoConverter}}"/>
 
         <Grid.ContextMenu>
             <ContextMenu>
@@ -51,7 +84,8 @@
                 </ContextMenu.Resources>
                 <MenuItem Header="_Editar" InputGestureText="Ctrl + E" Command="{Binding EditarPrestamos}" CommandParameter="{Binding Adelanto}"/>
                 <MenuItem Header="_Eliminar" InputGestureText="Ctrl + D" Command="{Binding DeletePrestamos}" CommandParameter="{Binding Adelanto}"/>
-                <MenuItem Header="{Binding Adelanto.Cancelado, Converter={StaticResource CanceladoConverter}}" InputGestureText="Ctrl + P" Command="{Binding AdelantoCobrado}" CommandParameter="{Binding Adelanto}"/>
+                <MenuItem Header="{Binding Adelanto.Cancelado, Converter={StaticResource CanceladoConverterInverso}}" InputGestureText="Ctrl + P" Command="{Binding AdelantoCobrado}" CommandParameter="{Binding Adelanto}"/>
+                <MenuItem Header="_Imprimir" InputGestureText="Ctrl + P" Command="{Binding Imprimir}" CommandParameter="{Binding Adelanto}"/>
             </ContextMenu>
         </Grid.ContextMenu>
     </Grid>

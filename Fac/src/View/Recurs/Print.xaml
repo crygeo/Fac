@@ -1,0 +1,22 @@
+﻿<Window Name="class"
+        x:Class="Fac.src.View.Recurs.Print"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fac.src.View.Recurs"
+        mc:Ignorable="d"
+        Title="Print" Height="600" Width="800">
+    <Grid DataContext="{Binding ElementName=class}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="1" Margin="5">
+            <WebBrowser Name="web" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+        </Border>
+        <Grid>
+            <Button Width="100" Height="50" Content="Print" Click="Button_Click"/>
+        </Grid>
+    </Grid>
+</Window>

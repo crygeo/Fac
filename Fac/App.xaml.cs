@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySqlDateBase;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -15,8 +16,10 @@ namespace Fac
     {
         public App()
         {
-            
+            new ConectMysql();
         }
+
+
 
     }
 }

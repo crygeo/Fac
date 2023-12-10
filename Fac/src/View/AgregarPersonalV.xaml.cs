@@ -24,7 +24,7 @@ namespace Fac.src.View
         public static readonly DependencyProperty TrabajadorProperty = DependencyProperty.Register(nameof(Trabajador),
                                                                                         typeof(Trabajador),
                                                                                         typeof(AgregarPersonalV),
-                                                                                        new PropertyMetadata(new Trabajador("", "", "")));
+                                                                                        new PropertyMetadata(new Trabajador()));
 
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command),
                                                                                         typeof(ICommand),

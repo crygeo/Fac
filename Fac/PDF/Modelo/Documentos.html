@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+
+    <div>
+        <img class="icon" src="Logo.png" alt="Logo" />
+        <H2 class="textLogo">El Granero</H2>
+    </div>
+    
+    <H2 class="fecha">Viernes 22 de septiembre del 2023</H2>
+    <H2 class="departamemto">Recursos Humanos</H2>
+    
+    <p class="parr">
+        Yo, 
+        <Span class="nombre">Geovanny Zambrano</Span> , Identificación 
+        <Span class="dni">2350946592</Span>, quien labora en el cargo de 
+        <Span class="cargo">Facturacion</Span>, pormedio de la presente solicito respetuosamente un anticipo de mi sueldo por el monto de 
+        <Span class="monto">50.00$</Span>. Este monto me puede ser descontado en la próxima nómina, que se ingresará en el número decuenta inscrito a la hora de mi ingreso. El motivo de este adelanto proviene de la necesidad de resolver cuestiones personales y familiares impostergables. Agradezco de antemano su atención.
+    <p>
+        <div class="pie">
+            Atentamente:
+            <div>
+                <div><span class="firma">________________________</span></div>
+                <div><Span class="nombre">Geovanny Zambrano</Span></div>
+                <div>Cedula:<br><span class="dni">2350946592</span></div>
+                <div>Telefono:<br><span class="telefono">0961282683</span></div>
+            </div>
+        </div>
+        <script>
+            // Función para obtener parámetros de la URL
+            function getURLParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            }
+    
+            var Nombre = getURLParameter('nombre');
+            var Dni = getURLParameter('dni');
+            var Cargo = getURLParameter('cargo');
+            var Telefono = getURLParameter('telefono');
+            var Monto = getURLParameter('monto');
+            var Fecha = getURLParameter('fecha');
+    
+            // Cambiar elementos con clase "nombre"
+            var nombres = document.getElementsByClassName('nombre');
+            for (var i = 0; i < nombres.length; i++) {
+                nombres[i].textContent = Nombre;
+            }
+    
+            // Cambiar elementos con clase "dni"
+            var dnies = document.getElementsByClassName('dni');
+            for (var i = 0; i < dnies.length; i++) {
+                dnies[i].textContent = Dni;
+            }
+
+            // Cambiar elementos con clase "cargo"
+            var dnies = document.getElementsByClassName('cargo');
+            for (var i = 0; i < dnies.length; i++) {
+                dnies[i].textContent = Cargo;
+            }
+
+            // Cambiar elementos con clase "telefono"
+            var dnies = document.getElementsByClassName('telefono');
+            for (var i = 0; i < dnies.length; i++) {
+                dnies[i].textContent = Telefono;
+            }
+
+            // Cambiar elementos con clase "monto"
+            var dnies = document.getElementsByClassName('monto');
+            for (var i = 0; i < dnies.length; i++) {
+                dnies[i].textContent = Monto;
+            }
+
+            // Cambiar elementos con clase "fecha"
+            var dnies = document.getElementsByClassName('fecha');
+            for (var i = 0; i < dnies.length; i++) {
+                dnies[i].textContent = Fecha;
+            }
+    
+            
+        </script>
+    </body>
+    </html>
+    
