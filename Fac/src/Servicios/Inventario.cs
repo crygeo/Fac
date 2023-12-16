@@ -10,8 +10,8 @@ namespace Fac.src.Servicios
 {
     public class Inventario
     {
-        private Dictionary<int, Producto> ListaProductos;
-        private Dictionary<int, Categoria> ListaCategoria;
+        public Dictionary<int, Producto> ListaProductos {  get; set; }
+        public Dictionary<int, Categoria> ListaCategoria { get; set; }
 
         private CategoriaDB _categoriaDB;
         private ProductosDB _productosDB;

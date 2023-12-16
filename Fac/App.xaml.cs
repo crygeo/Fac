@@ -1,4 +1,6 @@
-﻿using MySqlDateBase;
+﻿using Fac.src.Command.CmdConsole;
+using Fac.src.MySql;
+using Fac.src.Servicios;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,9 +16,11 @@ namespace Fac
     /// </summary>
     public partial class App : Application
     {
+        public static Inventario Inventario;
         public App()
         {
-            new ConectMysql();
+            ConsoleCmd cmd = new ConsoleCmd();
+            Inventario = new Inventario();
         }
 
 

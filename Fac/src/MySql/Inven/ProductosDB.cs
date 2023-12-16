@@ -98,7 +98,7 @@ namespace Fac.src.MySql.Inven
 
 
         /// <summary>
-        /// Agrega un categoria a la base de datos.
+        /// Agrega un producto a la base de datos.
         /// </summary>
         /// <param name="producto">Producto a agregar</param>
         /// <returns></returns>
@@ -108,6 +108,9 @@ namespace Fac.src.MySql.Inven
             {
                 //Aqui agrega los parametros al commando.
                 cmd.Parameters.AddWithValue("name", producto.Name);
+                cmd.Parameters.AddWithValue("nickname", JsonSL.Serialize(producto.Nickname));
+                cmd.Parameters.AddWithValue("factor", producto.Factor);
+                cmd.Parameters.AddWithValue("categoriaID", producto.Categoria.Id);
 
 
                 //Aqui commando se ejecuta.
