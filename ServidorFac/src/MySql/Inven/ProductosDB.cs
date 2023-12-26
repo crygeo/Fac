@@ -1,7 +1,9 @@
-﻿using Fac.src.Dats.Objet.Inventario;
-using Fac.src.Funciones.Herramientas;
-using Fac.src.Servicios;
+﻿using MySql;
 using MySql.Data.MySqlClient;
+using ServidorFac;
+using ServidorFac.Herramientas;
+using ServidorFac.Objs.Inventario;
+using ServidorFac.Servicios;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,14 +24,10 @@ namespace Fac.src.MySql.Inven
         private const string UPD_PRODUCTO = "productos.upd";
         private const string DEL_PRODUCTO = "productos.del";
 
-        private readonly ConectMysql _conectMysql;
-        private readonly Inventario _inventario;
-
-        public ProductosDB(Inventario inv)
+        private readonly Servidor servidor;
+        public ProductosDB(Servidor servidor)
         {
-            _conectMysql = new();
-            this._inventario = inv;
-
+            this.servidor = servidor;
         }
 
         /// <summary>
@@ -40,7 +38,7 @@ namespace Fac.src.MySql.Inven
         {
             Dictionary<int, Producto> lista = new();
 
-            using (var sql = _conectMysql.Connection())
+            using (var sql = servidor._conectMysql.Connection())
             {
                 using (var cmd = new MySqlCommand())
                 {
@@ -61,7 +59,7 @@ namespace Fac.src.MySql.Inven
                                 Name = (string)result["Name"],
                                 Nickname = JsonSL.Deserialize((string)result["Nickname"]),
                                 Factor = (int)result["Factor"],
-                                Categoria = _inventario.GetCategoriaID((int)result["CategoriaID"])
+                                Categoria = servidor._inventario.GetCategoriaID((int)result["CategoriaID"])
                             };
 
                             lista.Add(item.Id, item);
@@ -86,7 +84,7 @@ namespace Fac.src.MySql.Inven
         {
             Producto obj = new();
 
-            using (var sql = _conectMysql.Connection())
+            using (var sql = servidor._conectMysql.Connection())
             {
                 using (var cmd = new MySqlCommand())
                 {
@@ -106,7 +104,7 @@ namespace Fac.src.MySql.Inven
                         obj.Name = result.GetString("Name");
                         obj.Nickname = JsonSL.Deserialize(result.GetString("Nickname"));
                         obj.Factor = result.GetInt32("Factor");
-                        obj.Categoria = _inventario.GetCategoriaID(result.GetInt32("CategoriaID"));
+                        obj.Categoria = servidor._inventario.GetCategoriaID(result.GetInt32("CategoriaID"));
                     }
                 }
             }
@@ -122,7 +120,7 @@ namespace Fac.src.MySql.Inven
         /// <returns></returns>
         public async Task AddProducto(Producto producto)
         {
-            using (var sql = _conectMysql.Connection())
+            using (var sql = servidor._conectMysql.Connection())
             {
                 using (var cmd = new MySqlCommand())
                 {
@@ -152,7 +150,7 @@ namespace Fac.src.MySql.Inven
         /// <returns></returns>
         public async Task DelProducto(Producto producto)
         {
-            using (var sql = _conectMysql.Connection())
+            using (var sql = servidor._conectMysql.Connection())
             {
                 using (var cmd = new MySqlCommand())
                 {
@@ -189,7 +187,7 @@ namespace Fac.src.MySql.Inven
         public async Task UpdProducto(Producto producto)
         {
             if (producto.Id <= 0) throw new Exception("Producto sin ID.");
-            using (var sql = _conectMysql.Connection())
+            using (var sql = servidor._conectMysql.Connection())
             {
                 using (var cmd = new MySqlCommand(UPD_PRODUCTO))
                 {

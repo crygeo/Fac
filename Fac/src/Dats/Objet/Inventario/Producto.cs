@@ -19,5 +19,10 @@ namespace Fac.src.Dats.Objet.Inventario
         public string[] Nickname { get => _nickname; set => _nickname = value; }
         public Categoria Categoria { get => _categoria; set => _categoria = value; }
         public int Factor { get => _factor; set => _factor = value; }
+
+        public override string ToString()
+        {
+            return $"Cod: {Id}, Name: {Name}";
+        }
     }
 }

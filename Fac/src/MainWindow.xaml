@@ -27,7 +27,7 @@
             <Grid >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 
-                    <UserControl:ButtonType01  Text="Ingreso de Productos" BackgroundOne="#1A1D24" CornerRadius="10" MarginInterno="8" Margin="10" BackgroundTwo="#76777C">
+                    <UserControl:ButtonType01  Command="{Binding OpenWindowCommand}" CommandParameter="InventarioView" Text="Ingreso de Productos" BackgroundOne="#1A1D24" CornerRadius="10" MarginInterno="8" Margin="10" BackgroundTwo="#76777C">
                         <UserControl:ButtonType01.Icon>
                             <ImageBrush ImageSource="/src/Img/Icons/AddProduct.png"/>
                         </UserControl:ButtonType01.Icon>

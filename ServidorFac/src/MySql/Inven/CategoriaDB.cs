@@ -1,7 +1,8 @@
-﻿using Fac.src.Dats.Objet.Inventario;
-using Fac.src.Funciones.Herramientas;
-using Fac.src.Servicios;
+﻿using MySql;
 using MySql.Data.MySqlClient;
+using ServidorFac;
+using ServidorFac.Objs.Inventario;
+using ServidorFac.Servicios;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,13 +23,12 @@ namespace Fac.src.MySql.Inven
         private const string DEL_CATEGORIA = "categoria.del";
 
         //Obtengo una connecion a la base de datos.
-        private readonly ConectMysql _conectMysql;
-        private readonly Inventario _inventario;
+        public readonly Servidor servidor;
 
-        public CategoriaDB(Inventario inv)
+
+        public CategoriaDB(Servidor servidor)
         {
-            _conectMysql = new();
-            this._inventario = inv;
+            this.servidor = servidor;
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Fac.src.MySql.Inven
         {
             Dictionary<int, Categoria> lista = new();
 
-            using (var sql = _conectMysql.Connection())
+            using (var sql = servidor._conectMysql.Connection())
             {
 
                 using (var cmd = new MySqlCommand())
@@ -81,7 +81,7 @@ namespace Fac.src.MySql.Inven
         {
             Categoria obj = new();
 
-            using (var sql = _conectMysql.Connection())
+            using (var sql = servidor._conectMysql.Connection())
             {
 
                 using (var cmd = new MySqlCommand())
@@ -113,7 +113,7 @@ namespace Fac.src.MySql.Inven
         /// <returns></returns>
         public async Task<int> AddCategoriaGetID(Categoria categoria)
         {
-            using (var sql = _conectMysql.Connection())
+            using (var sql = servidor._conectMysql.Connection())
             {
                 using (var cmd = new MySqlCommand())
                 {
@@ -144,7 +144,7 @@ namespace Fac.src.MySql.Inven
         /// <returns></returns>
         public async Task AddCategoria(Categoria categoria)
         {
-            using (var sql = _conectMysql.Connection())
+            using (var sql = servidor._conectMysql.Connection())
             {
                 using (var cmd = new MySqlCommand())
                 {
@@ -174,7 +174,7 @@ namespace Fac.src.MySql.Inven
         /// <returns></returns>
         public async Task DelCategoria(Categoria categoria)
         {
-            using (var sql = _conectMysql.Connection())
+            using (var sql = servidor._conectMysql.Connection())
             {
                 using (var cmd = new MySqlCommand())
                 {
@@ -210,7 +210,7 @@ namespace Fac.src.MySql.Inven
         public async Task UpdCategoria(Categoria categoria)
         {
             if (categoria.Id <= 0) throw new Exception("Categoria sin ID.");
-            using (var sql = _conectMysql.Connection())
+            using (var sql = servidor._conectMysql.Connection())
             {
                 using (var cmd = new MySqlCommand())
                 {

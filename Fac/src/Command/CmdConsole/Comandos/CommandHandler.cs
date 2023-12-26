@@ -9,21 +9,21 @@ namespace Fac.src.Command.CmdConsole.Comandos
 {
     public class CommandHandler
     {
-        private Dictionary<string, CommandBase> comandos;
+        private Dictionary<string, CommandBaseC> comandos;
 
         public CommandHandler()
         {
             // Inicializar diccionario de comandos
-            comandos = new Dictionary<string, CommandBase>
+            comandos = new Dictionary<string, CommandBaseC>
             {
-                {"see", new VerListaCMD()},
+                {"view", new VerListaCMD()},
                 {"help", new HelpCMD() }
             };
         }
 
         public void ProcesarComando(string cmd, string[] parametros = null)
         {
-            if (comandos.TryGetValue(cmd, out CommandBase command))
+            if (comandos.TryGetValue(cmd, out CommandBaseC command))
             {
                 command.Execute(parametros);
             }

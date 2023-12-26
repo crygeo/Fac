@@ -1,4 +1,5 @@
 ﻿using Command;
+using Fac.src.Command.CmdConsole;
 using Fac.src.Funciones.StyleConsole;
 using Fac.src.Funciones.StyleConsole.Extras;
 using System;
@@ -7,15 +8,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fac.src.Command.CmdConsole.Comandos
+namespace ServidorFac.src.Command.Inform
 {
-    public class VerListaCMD : CommandBaseC
+    public class VerListaCMD : CommandBase
     {
         private string[] Parametros;
-        public override void Execute(string[] parameter)
+        private readonly Servidor Servidor;
+
+        public VerListaCMD(Servidor servidor)
         {
-            if(parameter.Length == 0) Parametros = new string[1] {""};
-            else Parametros = (string[])parameter;
+            this.Servidor = servidor;
+            Parametros = new string[] { };
+        }
+
+        public override void Execute(object parameter)
+        {
+            this.Parametros = (string[])parameter;
+            Ejecutar((string[])parameter);
+        }
+
+        public void Ejecutar(string[] parameter)
+        {
+            if (parameter.Length == 0) Parametros = new string[1] { "" };
+            else Parametros = parameter;
 
             ViewParameter viewParameter = verificParameter(Parametros[0]);
             View(viewParameter);
@@ -60,7 +75,7 @@ namespace Fac.src.Command.CmdConsole.Comandos
             };
             tabla.AddRow(Cavecera);
 
-            foreach (var item in App.Inventario.ListaCategoria)
+            foreach (var item in Servidor._inventario.ListaCategoria)
             {
                 List<Celda> Row = new List<Celda>()
                 {
@@ -87,7 +102,7 @@ namespace Fac.src.Command.CmdConsole.Comandos
             };
             tabla.AddRow(Cavecera);
 
-            foreach (var item in App.Inventario.ListaProductos)
+            foreach (var item in Servidor._inventario.ListaProductos)
             {
                 List<Celda> Row = new List<Celda>()
                 {
@@ -116,6 +131,7 @@ namespace Fac.src.Command.CmdConsole.Comandos
             }
         }
 
+        
         private enum ViewParameter
         {
             None,

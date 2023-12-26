@@ -17,12 +17,20 @@ namespace Fac
     public partial class App : Application
     {
         public static Inventario Inventario;
+        public static ConsoleCmd CommandsConsole;
         public App()
         {
-            ConsoleCmd cmd = new ConsoleCmd();
-            Inventario = new Inventario();
+            Inicializar();
         }
 
+        private async void Inicializar()
+        {
+            Inventario = new Inventario();
+
+            await Inventario.CargarDatosAsync();
+
+            CommandsConsole = new ConsoleCmd();
+        }
 
 
     }

@@ -20,10 +20,12 @@ namespace Fac.src.Servicios
         {
             _categoriaDB = new(this);
             _productosDB = new(this);
+        }
 
-
-            ListaCategoria = _categoriaDB.GetLista().Result;
-            ListaProductos = _productosDB.GetLista().Result;
+        public async Task CargarDatosAsync()
+        {
+            ListaCategoria = await _categoriaDB.GetLista();
+            ListaProductos = await _productosDB.GetLista();
         }
 
         public Categoria GetCategoriaID(int id) { return ListaCategoria[id]; }

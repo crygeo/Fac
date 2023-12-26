@@ -25,6 +25,7 @@ namespace Fac.src.ViewModel
             {
                 { "BankWindow", new WindowBankStrategy() },
                 { "PagosWindows", new WindowPagosStrategy() },
+                { "InventarioView", new WindowInventarioStrategy() },
             };
 
             OpenWindowCommand = new OpenWindow(windowStrategies);

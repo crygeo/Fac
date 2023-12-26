@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fac.src.Dats.Objet.Inventario
+namespace ServidorFac.Objs.Inventario
 {
     public class Categoria
     {

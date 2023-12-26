@@ -4,26 +4,25 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Fac.src.MySql;
 using Funciones;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
+using ServidorFac;
 
 
 
-namespace Fac.src.MySql
+namespace MySql
 {
     public class ConectMysql
     {
-        private static ConfigJson config;
+        private readonly Servidor servidor;
 
         private static bool isUsed = false;
 
-
-        // Constructor privado, asegura que solo una instancia de la clase se puede crear.
-        public ConectMysql()
+        public ConectMysql(Servidor servidor)
         {
-            // Configuración de la clase para manejar la conexión a la base de datos.
-            config = new ConfigJson();
-
+            this.servidor=servidor;
             PruebaDeConexion();
         }
 
@@ -32,7 +31,7 @@ namespace Fac.src.MySql
         public MySqlConnection Connection()
         {
             if (!isUsed) return Error();
-            return new MySqlConnection(config.GetStringBuilder());
+            return new MySqlConnection(servidor.modeloJsonMysql.ToString());
         }
 
 
@@ -43,7 +42,7 @@ namespace Fac.src.MySql
             try
             {
                 // Crea una nueva instancia de MySqlConnection con la cadena de conexión configurada.
-                using (var cn = new MySqlConnection(config.GetStringBuilder()))
+                using (var cn = new MySqlConnection(servidor.modeloJsonMysql.ToString()))
                 {
 
                     // Abre la conexión asincrónicamente y espera a que la operación se complete.
@@ -71,6 +70,10 @@ namespace Fac.src.MySql
             StyleConsole.PrintConsoleContainer("Error en la conexión a la DB.");
             return null;
         }
+
+
+        
+
     }
 
 
