@@ -118,7 +118,7 @@ namespace Fac.src.MySql.Inven
                 using (var cmd = new MySqlCommand())
                 {
                     cmd.Connection = sql;
-                    cmd.CommandText = ADD_CATEGORIA;
+                    cmd.CommandText = ADD_CATEGORIA_GET_ID;
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     //Aqui agrega los parametros al commando.
@@ -155,8 +155,8 @@ namespace Fac.src.MySql.Inven
                     //Aqui agrega los parametros al commando.
                     cmd.Parameters.AddWithValue("name", categoria.Name);
 
-
-                    //Aqui commando se ejecuta.
+                    await sql.OpenAsync();
+                    //Aqui commando se ejecuta. ////////// Solucionar error de previlegios. 26/12/2023. 
                     await cmd.ExecuteNonQueryAsync();
                 }
 
