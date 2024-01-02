@@ -1,65 +1,69 @@
 ﻿
 using Fac.src.Command.CmdConsole.Comandos;
+using Microsoft.AspNetCore.Hosting;
 using MySql;
-using Newtonsoft.Json;
 using ServidorFac.Servicios;
-using ServidorFac.src.Command;
 
 namespace ServidorFac
 {
     public class Servidor
     {
+
         public Inventario _inventario { get; private set; }
         public ConectMysql _conectMysql { get; private set; }
         public ModeloJsonMysql modeloJsonMysql { get; private set; }
+        public static bool IsOpenHost { get; private set; } = false;
+        public CommandHandler CommandHandler { get; private set; }
+
+        public static Servidor App {  get; private set; }
+        public static IWebHost WebHost { get; private set; }
+
 
         private const string PATH_CONFIG = "src/MySql/ConfigMysql.json";
+        private const string PATH_URL = "http://localhost:8080";
 
         public Servidor()
         {
             modeloJsonMysql = ModeloJsonMysql.buscarArchivo(PATH_CONFIG);
             _conectMysql = new ConectMysql(this);
             _inventario = new Inventario(this);
+            CommandHandler = new CommandHandler(this);
+
         }
 
-        
 
-        
-        public static void Main()
+
+        public static async Task Main(string[] args)
         {
-            var servidor = new Servidor();
+            App = new Servidor();
 
-            CargarDatosInventario(servidor._inventario);
+            await App.iniciarTask();
+            
+        }
 
-            Task.Run(() =>
+        private async Task StartWebHost()
+        {
+            // Iniciar el host de Kestrel
+            using (WebHost = new WebHostBuilder().UseUrls(PATH_URL).UseKestrel().UseStartup<Startup>().Build())
             {
-                
-                Console.WriteLine("Bienvenido a la consola de comandos. Ingresa 'help' para obtener ayuda.");
-
-                CommandHandler Handler = new(servidor);
-
-                while (true)
-                {
-                    Console.Write("\n[servidor]: >> ");
-                    Console.ForegroundColor = ConsoleColor.Red;
-
-                    string? t = Console.ReadLine();
-                    if (t == null) break;
-                    string[] input = t.ToLower().Split(" ");
-                    Console.ForegroundColor = ConsoleColor.White;
-
-                    string cmd = input[0];
-                    string[] parametros = input.Skip(1).ToArray();
-
-                    // Procesar el comando
-                    Handler.ProcesarComando(cmd, parametros);
-                }
-            }).Wait();
+                IsOpenHost = true;
+                await WebHost.RunAsync();
+            }
         }
 
-        private static async void CargarDatosInventario(Inventario inv)
+        private async Task CargarDatosInventario()
         {
-            await inv.CargarDatosAsync();
+            await _inventario.CargarDatosAsync();
+        }
+
+        private async Task iniciarTask()
+        {
+            await CargarDatosInventario();
+
+            await Task.WhenAll(
+                Task.Run(() => StartWebHost()), // Iniciar el host de Kestrel
+                Task.Run(() => CommandHandler.StartConsoleHandling()) // Manejar comandos en la consola
+        );
         }
 
     }

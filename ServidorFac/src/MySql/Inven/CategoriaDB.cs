@@ -17,7 +17,7 @@ namespace Fac.src.MySql.Inven
         //Nombre de los Stored Procedures de la base de datos.
         private const string GET_CATEGORIA_ALL = "categoria.get.all";
         private const string GET_CATEGORIA_NAME = "categoria.get.name";
-        private const string ADD_CATEGORIA = "categoria.add";
+        private const string ADD_CATEGORIA = "call fac.`categoria.add`(@name, @result);";
         private const string ADD_CATEGORIA_GET_ID = "categoria.add.get.id";
         private const string UPD_CATEGORIA = "categoria.upd";
         private const string DEL_CATEGORIA = "categoria.del";
@@ -142,7 +142,7 @@ namespace Fac.src.MySql.Inven
         /// </summary>
         /// <param name="categoria">Categoria a agregar</param>
         /// <returns></returns>
-        public async Task AddCategoria(Categoria categoria)
+        public async Task<int> AddCategoria(Categoria categoria)
         {
             using (var sql = servidor._conectMysql.Connection())
             {
@@ -150,19 +150,25 @@ namespace Fac.src.MySql.Inven
                 {
                     cmd.Connection = sql;
                     cmd.CommandText = ADD_CATEGORIA;
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandType = CommandType.Text;
 
                     //Aqui agrega los parametros al commando.
-                    cmd.Parameters.AddWithValue("name", categoria.Name);
+                    cmd.Parameters.AddWithValue("@name", categoria.Name);
+
+                    // Parámetro de salida para indicar el resultado
+                    var resultParameter = new MySqlParameter("@result", MySqlDbType.Int32);
+                    resultParameter.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(resultParameter);
 
                     await sql.OpenAsync();
                     //Aqui commando se ejecuta. ////////// Solucionar error de previlegios. 26/12/2023. 
                     await cmd.ExecuteNonQueryAsync();
+
+                    return (int)resultParameter.Value;
                 }
 
             }
 
-            return;
         }
 
 
@@ -172,7 +178,7 @@ namespace Fac.src.MySql.Inven
         /// </summary>
         /// <param name="categoria">Categoria a eliminar.</param>
         /// <returns></returns>
-        public async Task DelCategoria(Categoria categoria)
+        public async Task<int> DelCategoria(Categoria categoria)
         {
             using (var sql = servidor._conectMysql.Connection())
             {
@@ -184,11 +190,9 @@ namespace Fac.src.MySql.Inven
 
                     cmd.Parameters.AddWithValue("categoriaID", categoria.Id);
 
-                    await cmd.ExecuteNonQueryAsync();
+                    return await cmd.ExecuteNonQueryAsync();
                 }
             }
-
-            return;
         }
 
         /// <summary>

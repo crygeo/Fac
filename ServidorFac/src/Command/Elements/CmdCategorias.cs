@@ -1,6 +1,8 @@
 ﻿using Command;
+using Fac.src.Funciones.StyleConsole;
 using Fac.src.MySql.Inven;
 using ServidorFac.Objs.Inventario;
+using ServidorFac.src.Funciones.StyleConsole;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +27,39 @@ namespace ServidorFac.src.Command.Elements
             }
         }
 
-        private async void AddCategoria()
+        private void AddCategoria()
         {
             Categoria cat = solicitarCategoria();
             if (cat == null) { Console.WriteLine("\n\n Error catogoria vacia \n\n"); return; }
 
-            await new CategoriaDB(servidor).AddCategoria(cat);
+            var result = new CategoriaDB(servidor).AddCategoria(cat);
 
+            if (result.Result == -1)
+            {
+                PrintConsole.Line("\n\t§RError: §MLa categoria no se puede ingresar por que ya existe.\n");
+            }
+
+            if (result.Result == 1)
+            {
+                PrintConsole.Line("\n\t§GInforme: §MLa categoria se a ingresado con exito.\n");
+            }
+        }
+
+        private void DelCategoria()
+        {
+            int id = solicitarId();
+            if (id <= 0) { PrintConsole.Line("\n\n §RError: §MId debe ser mayor que 0\n\n"); return; }
+
+            var result = new CategoriaDB(servidor).DelCategoria(new Categoria { Id = id});
+
+            if (result.Result == -1)
+            {
+                PrintConsole.Line($"\n\t§RError: §MNo existe ninguna categoria con id {id}\n");
+            }
+            if (result.Result == 1)
+            {
+                PrintConsole.Line("\n\t§GInforme: §MLa categoria elimada con exito.\n");
+            }
         }
 
         private Categoria solicitarCategoria()
@@ -63,6 +91,37 @@ namespace ServidorFac.src.Command.Elements
             {
                 Name = name
             };
+
+        }
+
+        private int solicitarId()
+        {
+            var temp = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+
+            string msg = string.Empty;
+            msg += "    Insert:";
+
+            Console.Write(msg);
+
+
+            string id = solicitarDatos("Id");
+
+            bool isNumer = !int.TryParse(id, out int result);
+
+            while (id == string.Empty || id == null || isNumer)
+            {
+                var temps = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\t\t\tId is null, reinter.");
+                Console.ForegroundColor = temps;
+                id = solicitarDatos("Name");
+            }
+
+            Console.ForegroundColor = temp;
+
+
+            return result;
 
         }
 

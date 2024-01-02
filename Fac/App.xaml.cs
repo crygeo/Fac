@@ -20,7 +20,7 @@ namespace Fac
         public static ConsoleCmd CommandsConsole;
         public App()
         {
-            Inicializar();
+            //Inicializar();
         }
 
         private async void Inicializar()

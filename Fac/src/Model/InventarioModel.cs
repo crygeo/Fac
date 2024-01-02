@@ -1,4 +1,5 @@
-﻿using Fac.src.Dats.Objet.Inventario;
+﻿using Fac.src.Api;
+using Fac.src.Dats.Objet.Inventario;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,9 +16,22 @@ namespace Fac.src.Model
 
         public InventarioModel() 
         {
-            Categorias = new (App.Inventario.ListaCategoria.Values.ToList());
-            Productos = new (App.Inventario.ListaProductos.Values.ToList());
+            Categorias = new();
+            Productos = new();
+
+            cargarDatos();
         }
         
+        private async void cargarDatos()
+        {
+            var apiCliente = new ApiCliente("http://localhost:8080");
+            var productos = await apiCliente.ObtenerProductos();
+
+            Productos.Clear();
+            foreach (var item in productos)
+            {
+                Productos.Add(item);
+            }
+        }
     }
 }
