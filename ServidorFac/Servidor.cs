@@ -1,6 +1,8 @@
 ﻿
 using Fac.src.Command.CmdConsole.Comandos;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.DependencyInjection;
 using MySql;
 using ServidorFac.Servicios;
 
@@ -14,6 +16,8 @@ namespace ServidorFac
         public ModeloJsonMysql modeloJsonMysql { get; private set; }
         public static bool IsOpenHost { get; private set; } = false;
         public CommandHandler CommandHandler { get; private set; }
+        public IHubContext<CategoriaHub> HubContext {  get; set; }
+
 
         public static Servidor App {  get; private set; }
         public static IWebHost WebHost { get; private set; }
@@ -47,6 +51,9 @@ namespace ServidorFac
             using (WebHost = new WebHostBuilder().UseUrls(PATH_URL).UseKestrel().UseStartup<Startup>().Build())
             {
                 IsOpenHost = true;
+
+                HubContext = WebHost.Services.GetRequiredService<IHubContext<CategoriaHub>>();
+
                 await WebHost.RunAsync();
             }
         }

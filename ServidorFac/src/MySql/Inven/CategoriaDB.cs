@@ -122,15 +122,19 @@ namespace Fac.src.MySql.Inven
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     //Aqui agrega los parametros al commando.
-                    cmd.Parameters.AddWithValue("name", categoria.Name);
-                    cmd.Parameters.Add(new MySqlParameter("idCategoria", MySqlDbType.Int32));
-                    cmd.Parameters["@idCategoria"].Direction = System.Data.ParameterDirection.Output;
+                    cmd.Parameters.AddWithValue("@name", categoria.Name);
+
+                    var resultParameter = new MySqlParameter("@result", MySqlDbType.Int32);
+                    resultParameter.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(resultParameter);
 
 
+
+                    await sql.OpenAsync();
                     //Aqui commando se ejecuta.
                     await cmd.ExecuteNonQueryAsync();
 
-                    return Convert.ToInt32(cmd.Parameters["idCategoria"].Value);
+                    return (int)resultParameter.Value;
                 }
 
             }

@@ -1,6 +1,7 @@
 ﻿using Command;
 using Fac.src.Funciones.StyleConsole;
 using Fac.src.MySql.Inven;
+using Microsoft.AspNetCore.SignalR;
 using ServidorFac.Objs.Inventario;
 using ServidorFac.src.Funciones.StyleConsole;
 using System;
@@ -15,6 +16,7 @@ namespace ServidorFac.src.Command.Elements
     public class CmdCategorias : CommandBase
     {
         private readonly Servidor servidor;
+
         public CmdCategorias(Servidor servidor)
         {
             this.servidor = servidor;
@@ -27,22 +29,30 @@ namespace ServidorFac.src.Command.Elements
             }
         }
 
-        private void AddCategoria()
+        private async void AddCategoria()
         {
             Categoria cat = solicitarCategoria();
+
             if (cat == null) { Console.WriteLine("\n\n Error catogoria vacia \n\n"); return; }
 
-            var result = new CategoriaDB(servidor).AddCategoria(cat);
+            var result = await new CategoriaDB(servidor).AddCategoriaGetID(cat);
 
-            if (result.Result == -1)
+            if (result == -1)
             {
                 PrintConsole.Line("\n\t§RError: §MLa categoria no se puede ingresar por que ya existe.\n");
             }
 
-            if (result.Result == 1)
+            if (result > 0)
             {
                 PrintConsole.Line("\n\t§GInforme: §MLa categoria se a ingresado con exito.\n");
+
+                cat.Id = result;
+
+                servidor._inventario.ListaCategoria.Add(result, cat);
+                await servidor.HubContext.Clients.All.SendAsync("NuevaCategoria", cat);
             }
+
+
         }
 
         private void DelCategoria()
@@ -50,7 +60,7 @@ namespace ServidorFac.src.Command.Elements
             int id = solicitarId();
             if (id <= 0) { PrintConsole.Line("\n\n §RError: §MId debe ser mayor que 0\n\n"); return; }
 
-            var result = new CategoriaDB(servidor).DelCategoria(new Categoria { Id = id});
+            var result = new CategoriaDB(servidor).DelCategoria(new Categoria { Id = id });
 
             if (result.Result == -1)
             {

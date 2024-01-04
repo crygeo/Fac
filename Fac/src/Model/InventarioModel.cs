@@ -19,19 +19,40 @@ namespace Fac.src.Model
             Categorias = new();
             Productos = new();
 
-            cargarDatos();
+            CargarAllDatos();
         }
         
-        private async void cargarDatos()
+        public async void CargarAllDatos()
         {
-            var apiCliente = new ApiCliente("http://localhost:8080");
-            var productos = await apiCliente.ObtenerProductos();
-
-            Productos.Clear();
-            foreach (var item in productos)
-            {
-                Productos.Add(item);
-            }
+            await CargarProductos();
+            await CargarCategorias();
         }
+
+        public async Task CargarProductos()
+        {
+            var productos = await App.Api.ObtenerProductos();
+
+            recargarDatos<Producto>(Productos, productos);
+        }
+
+        public async Task CargarCategorias()
+        {
+            var categorias = await App.Api.ObtenerCategorias();
+
+            recargarDatos<Categoria>(Categorias, categorias);
+           
+        }
+
+        private void recargarDatos<T>(ObservableCollection<T> Lista, IEnumerable<T> newList)
+        {
+            Lista.Clear();
+
+            foreach(var item in newList)
+            {
+                Lista.Add(item);
+            }
+
+        }
+
     }
 }

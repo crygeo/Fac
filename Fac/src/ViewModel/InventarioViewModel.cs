@@ -23,9 +23,12 @@ namespace Fac.src.ViewModel
         public ICommand EliminarProducto { get; set; }
 
         public ObservableCollection<Producto> Productos { get { return _inventario.Productos; } }
+        public ObservableCollection<Categoria> Categorias { get { return _inventario.Categorias; } }
+
         public InventarioViewModel()
         {
             _inventario = new InventarioModel();
+
             AgregarCategoria = new AgregarCategoria();
         }
     }

@@ -23,7 +23,19 @@
         </Grid>
         <Border Grid.Row="1"  Background="#1A1D24" BorderBrush="#FE5050" BorderThickness="1,0,1,1" CornerRadius="0,0,5,5">
             <Grid DataContext="{Binding Source={StaticResource viewModel}}">
-                <ItemsControl ItemsSource="{Binding Productos}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ItemsControl Grid.Column="0" ItemsSource="{Binding Productos}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"></TextBlock>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <ItemsControl Grid.Column="1" ItemsSource="{Binding Categorias}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}"></TextBlock>

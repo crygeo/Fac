@@ -15,15 +15,15 @@ namespace Fac.src.Command.Inventario
 
         public AgregarCategoria()
         {
-            CategoriaDB = new(App.Inventario);
+            //CategoriaDB = new(App.Inventario);
         }
 
         public override async void Execute(object parameter)
         {
             if (parameter is Categoria categoria)
             {
-                categoria.Id = await CategoriaDB.AddCategoriaGetID(categoria);
-                App.Inventario.ListaCategoria.Add(categoria.Id, categoria);
+                //categoria.Id = await CategoriaDB.AddCategoriaGetID(categoria);
+                //App.Inventario.ListaCategoria.Add(categoria.Id, categoria);
             }
         }
     }

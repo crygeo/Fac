@@ -1,4 +1,4 @@
-﻿using Fac.src.Command.CmdConsole;
+﻿using Fac.src.Api;
 using Fac.src.MySql;
 using Fac.src.Servicios;
 using System;
@@ -16,21 +16,13 @@ namespace Fac
     /// </summary>
     public partial class App : Application
     {
-        public static Inventario Inventario;
-        public static ConsoleCmd CommandsConsole;
+        public static ApiCliente Api { get; set; }
+        private static string URL_API = "http://localhost:8080";
         public App()
         {
-            //Inicializar();
+            Api = new ApiCliente(URL_API);
         }
 
-        private async void Inicializar()
-        {
-            Inventario = new Inventario();
-
-            await Inventario.CargarDatosAsync();
-
-            CommandsConsole = new ConsoleCmd();
-        }
 
 
     }
