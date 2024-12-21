@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ServidorFac.src.Objs.Otros;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,6 @@ namespace ServidorFac.Herramientas
         {
             return JsonConvert.SerializeObject(json);
         }
+        
     }
 }

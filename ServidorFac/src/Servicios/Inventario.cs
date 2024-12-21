@@ -5,16 +5,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Google.Protobuf.Collections;
+using ServidorFac.src.Interface;
+using ServidorFac.src.Tablas;
+using ServidorFac.src.Interfaces;
 
 namespace ServidorFac.Servicios
 {
     public class Inventario
     {
-        public Dictionary<int, Producto> ListaProductos { get; set; }
-        public Dictionary<int, Categoria> ListaCategoria { get; set; }
+        public Dictionary<Type, IInventarioCrud<IInventarioItem>> Listas { get; set; }
 
-        private CategoriaDB _categoriaDB;
-        private ProductosDB _productosDB;
+        private IItemsDB _categoriaDB;
+        private IItemsDB _productosDB;
 
         private readonly Servidor servidor;
 
@@ -23,11 +26,19 @@ namespace ServidorFac.Servicios
         {
             this.servidor = sv;
 
-            _categoriaDB = new(sv);
-            _productosDB = new(sv);
+            Listas = new();
 
-            ListaCategoria = new();
-            ListaProductos = new();
+            _categoriaDB = new CategoriaDB(sv);
+            _productosDB = new ProductosDB(sv);
+
+            Listas = new Dictionary<Type, IInventarioCrud<IInventarioItem>>
+            {
+                { typeof(Categoria), new ItemsCrud<Categoria>(servidor, _categoriaDB)  },
+                { typeof(Producto), new ItemsCrud<Producto>(servidor, _productosDB)  },
+            };
+
+
+
         }
 
         public async Task CargarDatosAsync()
@@ -35,12 +46,15 @@ namespace ServidorFac.Servicios
             var getListCategoria = _categoriaDB.GetLista();
             var getListaProductos = _productosDB.GetLista();
 
-            ListaCategoria = await getListCategoria;
-            ListaProductos = await getListaProductos;
+            Listas[typeof(Categoria)].ListaItems = await getListCategoria;
+            Listas[typeof(Producto)].ListaItems = await getListaProductos;
         }
 
-        public Categoria GetCategoriaID(int id) { return ListaCategoria[id]; }
 
-        public Producto GetProducto(int id) { return ListaProductos[id]; }
+        public void AddItemForType(Type type, IInventarioItem item)
+        {
+            Listas[type].AddItem(item);
+        }
+
     }
 }

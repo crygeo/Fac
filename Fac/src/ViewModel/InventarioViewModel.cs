@@ -1,6 +1,7 @@
 ﻿using Fac.src.Command.Inventario;
 using Fac.src.Dats.Objet.Inventario;
 using Fac.src.Model;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,6 +22,7 @@ namespace Fac.src.ViewModel
         public ICommand AgregarProducto{ get; set; }
         public ICommand EditarProducto{ get; set; }
         public ICommand EliminarProducto { get; set; }
+        public ICommand CerrarVentanaCommand { get; private set; }
 
         public ObservableCollection<Producto> Productos { get { return _inventario.Productos; } }
         public ObservableCollection<Categoria> Categorias { get { return _inventario.Categorias; } }
@@ -30,6 +32,13 @@ namespace Fac.src.ViewModel
             _inventario = new InventarioModel();
 
             AgregarCategoria = new AgregarCategoria();
+
+            CerrarVentanaCommand = new RelayCommand(CerrarVentana);
+        }
+
+        private void CerrarVentana()
+        {
+            _inventario.desasignarEventos();
         }
     }
 }

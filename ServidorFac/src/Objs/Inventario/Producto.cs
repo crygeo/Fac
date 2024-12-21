@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ServidorFac.src.Funciones.StyleConsole;
+using ServidorFac.src.Interface;
+using ServidorFac.src.Objs.Otros;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,23 +9,39 @@ using System.Threading.Tasks;
 
 namespace ServidorFac.Objs.Inventario
 {
-    public class Producto
+    public class Producto : IInventarioItem
     {
-        private int _id;
-        private string _name;
-        private string[] _nickname;
-        private Categoria _categoria;
-        private int _factor;
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public Nick? Nickname { get; set; }
+        public Categoria? Categoria { get; set; }
 
-        public int Id { get => _id; set => _id = value; }
-        public string Name { get => _name; set => _name = value; }
-        public string[] Nickname { get => _nickname; set => _nickname = value; }
-        public Categoria Categoria { get => _categoria; set => _categoria = value; }
-        public int Factor { get => _factor; set => _factor = value; }
+
+        private void SaveCate(Categoria a)
+        {
+
+        }
+        public int Factor { get; set; }
+        public Type Type { get; set; } = typeof(Producto);
+
+        public Producto() { }
+        public Producto(bool soli)
+        {
+            if (soli)
+            {
+                string msg = string.Empty;
+                msg += "    §CInsert:";
+                PrintConsole.Line(msg);
+
+                Name = PrintConsole.SolicitarDatos("§RName");
+                Name = PrintConsole.SolicitarDatos("§RName");
+            }
+        }
 
         public override string ToString()
         {
-            return $"Cod: {Id}, Name: {Name}";
+            return $"Id: {Id}, Name: {Name},NickName: {Nickname}, Categoria: {Categoria}, Factor: {Factor}";
         }
+
     }
 }

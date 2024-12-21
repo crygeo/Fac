@@ -1,4 +1,6 @@
-﻿using Fac.src.Dats.Objet.Inventario;
+﻿using Fac.src.Api.model;
+using Fac.src.Api.Model;
+using Fac.src.Dats.Objet.Inventario;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.Generic;
@@ -17,6 +19,9 @@ namespace Fac.src.Api
         private readonly HttpClient _httpClient;
         private HubConnection _hubConnection;
 
+        public MetodosInventario InventarioMetodos { get; set; }
+        public EventosInventario EventosInventario { get; set; }
+
         public ApiCliente(string baseUri)
         {
             _httpClient = new HttpClient
@@ -25,41 +30,19 @@ namespace Fac.src.Api
             };
 
             _hubConnection = new HubConnectionBuilder()
-            .WithUrl($"{baseUri}/categoriaHub")  // Asegúrate de usar la URL correcta para tu hub
+            .WithUrl($"{baseUri}/categoriaHub")
             .Build();
 
-            InicializarEventos();
             ConectarAlHub();
+
+            InventarioMetodos = new MetodosInventario(_httpClient);
+            EventosInventario = new EventosInventario(_hubConnection);
         }
 
-        public event Action<Categoria> NuevaCategoriaAgregada;
-        public event Action<Producto> NuevoProductoAgregado;
 
-        public async Task<IEnumerable<Producto>> ObtenerProductos()
-        {
-            return await ManejarExcepciones(async () => await _httpClient.GetFromJsonAsync<IEnumerable<Producto>>("api/productos")) ?? Array.Empty<Producto>();
-        }
+        
 
-        public async Task<IEnumerable<Categoria>> ObtenerCategorias()
-        {
-            return await ManejarExcepciones(async () => await _httpClient.GetFromJsonAsync<IEnumerable<Categoria>>("api/categorias")) ?? Array.Empty<Categoria>();
-        }
-
-        private void InicializarEventos()
-        {
-            _hubConnection.On<Categoria>("NuevaCategoria", categoria =>
-            {
-                // Manejar el evento en el cliente
-                Console.WriteLine("Nueva categoria");
-                NuevaCategoriaAgregada?.Invoke(categoria);
-            });
-
-            _hubConnection.On<Producto>("NuevoProducto", producto =>
-            {
-                // Manejar el evento en el cliente
-                NuevoProductoAgregado?.Invoke(producto);
-            });
-        }
+        
 
         private async void ConectarAlHub()
         {
@@ -74,37 +57,6 @@ namespace Fac.src.Api
             }
         }
 
-        private async Task<T> ManejarExcepciones<T>(Func<Task<T>> funcion)
-        {
-            try
-            {
-                return await funcion();
-            }
-            catch (HttpRequestException ex)
-            {
-                string msg = string.Empty;
-
-                if (ex.InnerException is not null && ex.InnerException is WebException webException)
-                {
-                    if (webException.Status == WebExceptionStatus.ConnectFailure)
-                    {
-                        msg += "No se pudo conectar al servidor. Asegúrate de que el servidor esté en ejecución.";
-                        // Puedes realizar otras acciones según tus necesidades
-                    }
-                    else
-                    {
-                        msg += $"Error en la solicitud: {ex.Message}";
-                    }
-                }
-                else
-                {
-                    msg += $"Error en la solicitud: {ex.Message}";
-                }
-
-                MessageBox.Show(msg, "Alert");
-                // Puedes devolver un valor predeterminado o lanzar nuevamente la excepción si deseas que el error se propague
-                return default;
-            }
-        }
+        
     }
 }

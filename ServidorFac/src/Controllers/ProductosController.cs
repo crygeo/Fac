@@ -7,7 +7,6 @@ using System.Collections.Generic;
 [ApiController]
 public class ProductosController : ControllerBase
 {
-
     public ProductosController()
     {
     }
@@ -15,7 +14,7 @@ public class ProductosController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<Producto>> Get()
     {
-        return Ok(Servidor.App._inventario.ListaProductos.Values);
+        return Ok(Servidor.App._inventario.Listas[typeof(Categoria)].ListaItems);
     }
 
     // Otros métodos HTTP para realizar operaciones CRUD

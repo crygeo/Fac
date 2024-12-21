@@ -20,6 +20,7 @@ namespace Fac.src.Model
             Productos = new();
 
             CargarAllDatos();
+            asignarEventos();
         }
         
         public async void CargarAllDatos()
@@ -30,17 +31,41 @@ namespace Fac.src.Model
 
         public async Task CargarProductos()
         {
-            var productos = await App.Api.ObtenerProductos();
+            var productos = await App.Api.InventarioMetodos.ObtenerProductos();
 
             recargarDatos<Producto>(Productos, productos);
         }
 
         public async Task CargarCategorias()
         {
-            var categorias = await App.Api.ObtenerCategorias();
+            var categorias = await App.Api.InventarioMetodos.ObtenerCategorias();
 
             recargarDatos<Categoria>(Categorias, categorias);
            
+        }
+
+        private void asignarEventos()
+        {
+            App.Api.EventosInventario.NuevaCategoriaAgregada += EventosInventario_NuevaCategoriaAgregada;
+            App.Api.EventosInventario.NuevoProductoAgregado += EventosInventario_NuevoProductoAgregado;
+        }
+        public void desasignarEventos()
+        {
+            App.Api.EventosInventario.NuevaCategoriaAgregada -= EventosInventario_NuevaCategoriaAgregada;
+            App.Api.EventosInventario.NuevoProductoAgregado -= EventosInventario_NuevoProductoAgregado;
+        }
+
+        private void EventosInventario_NuevoProductoAgregado(Producto obj)
+        {
+            Console.WriteLine("Producto Agregada.");
+        }
+
+        private void EventosInventario_NuevaCategoriaAgregada(Categoria obj)
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                Categorias.Add(obj);
+            });
         }
 
         private void recargarDatos<T>(ObservableCollection<T> Lista, IEnumerable<T> newList)

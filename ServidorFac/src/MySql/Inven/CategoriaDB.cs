@@ -3,6 +3,8 @@ using MySql.Data.MySqlClient;
 using ServidorFac;
 using ServidorFac.Objs.Inventario;
 using ServidorFac.Servicios;
+using ServidorFac.src.Interface;
+using ServidorFac.src.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Fac.src.MySql.Inven
 {
-    public class CategoriaDB
+    public class CategoriaDB : IItemsDB
     {
         //Nombre de los Stored Procedures de la base de datos.
         private const string GET_CATEGORIA_ALL = "categoria.get.all";
@@ -35,9 +37,9 @@ namespace Fac.src.MySql.Inven
         /// Este Metodo otienes un <Dictionary> de todas las categorias creadas el la base de datos.
         /// </summary>
         /// <returns></returns>
-        public async Task<Dictionary<int, Categoria>> GetLista()
+        public async Task<List<IInventarioItem>> GetLista()
         {
-            Dictionary<int, Categoria> lista = new();
+            List<IInventarioItem> lista = new();
 
             using (var sql = servidor._conectMysql.Connection())
             {
@@ -60,7 +62,7 @@ namespace Fac.src.MySql.Inven
                                 Name = result.GetString("Name"),
                             };
 
-                            lista.Add(item.Id, item);
+                            lista.Add(item);
                         }
 
                     }
@@ -146,33 +148,39 @@ namespace Fac.src.MySql.Inven
         /// </summary>
         /// <param name="categoria">Categoria a agregar</param>
         /// <returns></returns>
-        public async Task<int> AddCategoria(Categoria categoria)
+        public async Task<int> AddItem(IInventarioItem elem)
         {
-            using (var sql = servidor._conectMysql.Connection())
+            if (elem is Categoria categoria)
             {
-                using (var cmd = new MySqlCommand())
+
+                using (var sql = servidor._conectMysql.Connection())
                 {
-                    cmd.Connection = sql;
-                    cmd.CommandText = ADD_CATEGORIA;
-                    cmd.CommandType = CommandType.Text;
+                    using (var cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = sql;
+                        cmd.CommandText = ADD_CATEGORIA_GET_ID;
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                    //Aqui agrega los parametros al commando.
-                    cmd.Parameters.AddWithValue("@name", categoria.Name);
+                        //Aqui agrega los parametros al commando.
+                        cmd.Parameters.AddWithValue("@name", categoria.Name);
 
-                    // Parámetro de salida para indicar el resultado
-                    var resultParameter = new MySqlParameter("@result", MySqlDbType.Int32);
-                    resultParameter.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(resultParameter);
+                        var resultParameter = new MySqlParameter("@result", MySqlDbType.Int32);
+                        resultParameter.Direction = ParameterDirection.Output;
+                        cmd.Parameters.Add(resultParameter);
 
-                    await sql.OpenAsync();
-                    //Aqui commando se ejecuta. ////////// Solucionar error de previlegios. 26/12/2023. 
-                    await cmd.ExecuteNonQueryAsync();
 
-                    return (int)resultParameter.Value;
+
+                        await sql.OpenAsync();
+                        //Aqui commando se ejecuta.
+                        await cmd.ExecuteNonQueryAsync();
+
+                        return (int)resultParameter.Value;
+                    }
+
                 }
 
             }
-
+            return (int)-1;
         }
 
 
@@ -235,6 +243,8 @@ namespace Fac.src.MySql.Inven
 
             return;
         }
+
+
     }
 }
 

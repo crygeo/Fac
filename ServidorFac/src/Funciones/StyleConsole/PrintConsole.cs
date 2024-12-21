@@ -75,7 +75,28 @@ namespace ServidorFac.src.Funciones.StyleConsole
             return ConsoleColor.White;
         }
 
-        
+        public static string SolicitarDatos(string nameDato)
+        {
+            var temp = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+
+            string msg = string.Empty;
+            msg += $"\n        └─ {nameDato} >> ";
+            Console.Write(msg);
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            var text = Console.ReadLine() ?? "";
+            Console.ForegroundColor = temp;
+
+            if (text == null)
+            {
+                PrintConsole.Line("\t\t\tName is null, reinter.");
+                return SolicitarDatos(nameDato);
+            }
+            else return text;
+
+        }
+
     }
 
 }

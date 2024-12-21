@@ -15,33 +15,33 @@ namespace Fac.src.Command.CmdConsole.Comandos
 {
     public class CommandHandler
     {
-        private Dictionary<string, CommandBase> comandos;
+        private List<CommandBase> comandos;
         private readonly Servidor servidor;
+        private List<(string, CommandBase)> commandsNick;
+
         public string NameConsole = "servidor";
         public CommandHandler(Servidor servidor)
         {
             this.servidor = servidor;
             // Inicializar diccionario de comandos
-            comandos = new Dictionary<string, CommandBase>
-            {
-                {"view", new VerListaCMD(servidor)},
-                {"help", new HelpCMD() },
-                {"add", new AddCMD(servidor) }
-            };
+            comandos = new List<CommandBase>();
+            commandsNick = new List<(string, CommandBase)>();
 
+            AddComandos();
             
         }
 
         public void ProcesarComando(string cmd, string[] parametros)
         {
-            if (comandos.TryGetValue(cmd, out CommandBase command))
+            var matchingCommand = commandsNick.FirstOrDefault(pair => pair.Item1.Equals(cmd, StringComparison.OrdinalIgnoreCase));
+
+            if (matchingCommand != default)
             {
-                command.Execute(parametros);
+                matchingCommand.Item2.Execute(parametros);
             }
             else
             {
                 Console.WriteLine("Comando no reconocido. Ingresa 'help' para obtener ayuda.");
-
             }
         }
 
@@ -70,6 +70,37 @@ namespace Fac.src.Command.CmdConsole.Comandos
                 ProcesarComando(cmd, parametros);
             }
 
+        }
+
+        private void AddComandos()
+        {
+            CommandBase cmdView = new VerCMD(servidor);
+            VerificarYAgregar(cmdView);
+
+            CommandBase cmdHelp = new HelpCMD(comandos);
+            VerificarYAgregar(cmdHelp);
+
+            CommandBase cmdAgregar = new AddCMD(servidor);
+            VerificarYAgregar(cmdAgregar);
+
+        }
+
+        private void VerificarYAgregar(CommandBase command)
+        {
+            comandos.Add(command);
+
+            foreach (var nick in command.NickName.ToArray())
+            {
+                var conflictingCommand = commandsNick.FirstOrDefault(c => c.Item1.Equals(nick, StringComparison.OrdinalIgnoreCase));
+
+                if (conflictingCommand != default)
+                {
+                    // Si el nick ya está registrado, muestra un mensaje de error con información adicional.
+                    throw new InvalidOperationException($"Error: El nick '{nick}' ya está registrado para los comandos '{conflictingCommand.Item2.Name}' y '{command.Name}'.");
+                }
+
+                commandsNick.Add((nick, command));
+            }
         }
     }
 }

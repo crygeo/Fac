@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fac.src.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,14 @@ namespace Fac.src.View.Inventario
         public InventarioView()
         {
             InitializeComponent();
+        }
+
+        private void view_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if(Main.DataContext is InventarioViewModel viewModel)
+            {
+                viewModel.CerrarVentanaCommand.Execute(null);
+            }
         }
     }
 }

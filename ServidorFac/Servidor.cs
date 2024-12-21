@@ -28,6 +28,9 @@ namespace ServidorFac
 
         public Servidor()
         {
+            Console.Title = "Servidor de Fac";
+
+
             modeloJsonMysql = ModeloJsonMysql.buscarArchivo(PATH_CONFIG);
             _conectMysql = new ConectMysql(this);
             _inventario = new Inventario(this);

@@ -4,6 +4,9 @@ using ServidorFac;
 using ServidorFac.Herramientas;
 using ServidorFac.Objs.Inventario;
 using ServidorFac.Servicios;
+using ServidorFac.src.Interface;
+using ServidorFac.src.Interfaces;
+using ServidorFac.src.Objs.Otros;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Fac.src.MySql.Inven
 {
-    public class ProductosDB
+    public class ProductosDB : IItemsDB
     {
 
         //Nombre de los Stored Procedures de la base de datos.
@@ -34,9 +37,9 @@ namespace Fac.src.MySql.Inven
         /// Este Metodo otienes un <Dictionary> de todos los productos creados el la base de datos.
         /// </summary>
         /// <returns></returns>
-        public async Task<Dictionary<int, Producto>> GetLista()
+        public async Task<List<IInventarioItem>> GetLista()
         {
-            Dictionary<int, Producto> lista = new();
+            List<IInventarioItem> lista = new();
 
             using (var sql = servidor._conectMysql.Connection())
             {
@@ -57,12 +60,12 @@ namespace Fac.src.MySql.Inven
                             {
                                 Id = (int)result["ProductoID"],
                                 Name = (string)result["Name"],
-                                Nickname = JsonSL.Deserialize((string)result["Nickname"]),
+                                Nickname = Nick.Parse(JsonSL.Deserialize((string)result["Nickname"])),
                                 Factor = (int)result["Factor"],
-                                Categoria = servidor._inventario.GetCategoriaID((int)result["CategoriaID"])
+                                Categoria = (Categoria)servidor._inventario.Listas[typeof(Categoria)].GetItemsID((int)result["CategoriaID"])
                             };
 
-                            lista.Add(item.Id, item);
+                            lista.Add(item);
                         }
                     }
                 }
@@ -102,9 +105,9 @@ namespace Fac.src.MySql.Inven
                         //Puedes hacer uso del resultado.
                         obj.Id = result.GetInt32("ProductoID");
                         obj.Name = result.GetString("Name");
-                        obj.Nickname = JsonSL.Deserialize(result.GetString("Nickname"));
+                        obj.Nickname = Nick.Parse(JsonSL.Deserialize(result.GetString("Nickname")));
                         obj.Factor = result.GetInt32("Factor");
-                        obj.Categoria = servidor._inventario.GetCategoriaID(result.GetInt32("CategoriaID"));
+                        obj.Categoria = (Categoria)servidor._inventario.Listas[typeof(Categoria)].GetItemsID((int)result["CategoriaID"]);
                     }
                 }
             }
@@ -118,29 +121,31 @@ namespace Fac.src.MySql.Inven
         /// </summary>
         /// <param name="producto">Producto a agregar</param>
         /// <returns></returns>
-        public async Task AddProducto(Producto producto)
+        public async Task<int> AddItem(IInventarioItem item)
         {
-            using (var sql = servidor._conectMysql.Connection())
-            {
-                using (var cmd = new MySqlCommand())
+            if (item is Producto producto)
+                using (var sql = servidor._conectMysql.Connection())
                 {
-                    cmd.Connection = sql;
-                    cmd.CommandText = ADD_PRODUCTO;
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (var cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = sql;
+                        cmd.CommandText = ADD_PRODUCTO;
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                    //Aqui agrega los parametros al commando.
-                    cmd.Parameters.AddWithValue("name", producto.Name);
-                    cmd.Parameters.AddWithValue("nickname", JsonSL.Serialize(producto.Nickname));
-                    cmd.Parameters.AddWithValue("factor", producto.Factor);
-                    cmd.Parameters.AddWithValue("categoriaID", producto.Categoria.Id);
+                        //Aqui agrega los parametros al commando.
+                        cmd.Parameters.AddWithValue("name", producto.Name);
+                        cmd.Parameters.AddWithValue("nickname", JsonSL.Serialize(producto.Nickname.ToArray()));
+                        cmd.Parameters.AddWithValue("factor", producto.Factor);
+                        cmd.Parameters.AddWithValue("categoriaID", producto.Categoria.Id);
 
 
-                    //Aqui commando se ejecuta.
-                    await cmd.ExecuteNonQueryAsync();
+                        //Aqui commando se ejecuta.
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+
+                    return 0;
                 }
-
-                return;
-            }
+            return -1;
         }
 
         /// <summary>

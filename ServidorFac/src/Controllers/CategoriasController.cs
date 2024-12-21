@@ -15,7 +15,7 @@ public class CategoriasController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<Categoria>> Get()
     {
-        return Ok(Servidor.App._inventario.ListaCategoria.Values);
+        return Ok(Servidor.App._inventario.Listas[typeof(Categoria)].ListaItems);
     }
 
     // Otros métodos HTTP para realizar operaciones CRUD

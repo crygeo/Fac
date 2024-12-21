@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fac.src.MySql
+namespace ServidorFac.src.Interface
 {
-    public class Connect
+    public interface IInventarioItem
     {
+        int Id { get; set; }
+        Type Type { get; set; }
+
     }
 }

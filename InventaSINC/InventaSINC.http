@@ -1,0 +1,6 @@
+@InventaSINC_HostAddress = http://localhost:5212
+
+GET {{InventaSINC_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

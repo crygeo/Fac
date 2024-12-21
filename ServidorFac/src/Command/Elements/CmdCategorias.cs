@@ -4,6 +4,7 @@ using Fac.src.MySql.Inven;
 using Microsoft.AspNetCore.SignalR;
 using ServidorFac.Objs.Inventario;
 using ServidorFac.src.Funciones.StyleConsole;
+using ServidorFac.src.Objs.Otros;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,19 +18,30 @@ namespace ServidorFac.src.Command.Elements
     {
         private readonly Servidor servidor;
 
+        public override string Name { get; set; }
+        public override string Description { get; set; }
+        public override Nick NickName { get; set; }
+        public override string Help { get; set; }
+        public override List<CommandBase> SubCommandos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public CmdCategorias(Servidor servidor)
         {
             this.servidor = servidor;
+
+            Name = "Ver";
+            Description = "Comando para ver toda la tablas de la base de datos.";
+            NickName = Nick.Parse(new string[] { "vt" });
+            Help = "Uso: ver, ver [Name Table]";
         }
-        public override void Execute(object parameter)
+        public override void Execute(object? parameter)
         {
-            if (parameter is Crud cmdText)
-            {
-                if (cmdText == Crud.add) AddCategoria();
-            }
+            //if (parameter is Crud cmdText)
+            //{
+            //    if (cmdText == Crud.add) AddCategoria();
+            //}
         }
 
-        private async void AddCategoria()
+        /*private async void AddCategoria()
         {
             Categoria cat = solicitarCategoria();
 
@@ -48,7 +60,7 @@ namespace ServidorFac.src.Command.Elements
 
                 cat.Id = result;
 
-                servidor._inventario.ListaCategoria.Add(result, cat);
+                //servidor._inventario.ListaCategoria.Add(result, cat);
                 await servidor.HubContext.Clients.All.SendAsync("NuevaCategoria", cat);
             }
 
@@ -72,37 +84,7 @@ namespace ServidorFac.src.Command.Elements
             }
         }
 
-        private Categoria solicitarCategoria()
-        {
-            var temp = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Cyan;
-
-            string msg = string.Empty;
-            msg += "    Insert:";
-
-            Console.Write(msg);
-
-
-            string name = solicitarDatos("Name");
-
-            while (name == string.Empty || name == null)
-            {
-                var temps = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\t\t\tName is null, reinter.");
-                Console.ForegroundColor = temps;
-                name = solicitarDatos("Name");
-            }
-
-            Console.ForegroundColor = temp;
-
-
-            return new Categoria()
-            {
-                Name = name
-            };
-
-        }
+        
 
         private int solicitarId()
         {
@@ -133,24 +115,9 @@ namespace ServidorFac.src.Command.Elements
 
             return result;
 
-        }
+        }*/
 
-        private string solicitarDatos(string nameDato)
-        {
-            var temp = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Cyan;
-
-            string msg = string.Empty;
-            msg += $"\n        └─ {nameDato} >> ";
-            Console.Write(msg);
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            var text = Console.ReadLine() ?? "";
-            Console.ForegroundColor = temp;
-
-            return text;
-
-        }
+        
 
     }
 

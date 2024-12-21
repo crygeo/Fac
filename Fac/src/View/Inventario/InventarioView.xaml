@@ -9,7 +9,7 @@
         xmlns:viewModel="clr-namespace:Fac.src.ViewModel"
         mc:Ignorable="d"
         Title="Inventario" Height="600" Width="1000"
-        WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True" Background="Transparent">
+        WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True" Background="Transparent" Closing="view_Closing">
     <Window.Resources>
         <viewModel:InventarioViewModel x:Key="viewModel"/>
     </Window.Resources>
@@ -22,7 +22,7 @@
             <UtilidadesUC:BarraPrincipal BackgroundPro="#202532" Title="Informe de inventario" Foreground="White"  BorderThicknessInter="1,1,1,0" BorderBrushInter="#FE5050" BackgroundButtonOver="#414141" CornerRadius="5,5,0,0" BackgroundButtonClick="#397EA3" Window="{Binding ElementName=view}"/>
         </Grid>
         <Border Grid.Row="1"  Background="#1A1D24" BorderBrush="#FE5050" BorderThickness="1,0,1,1" CornerRadius="0,0,5,5">
-            <Grid DataContext="{Binding Source={StaticResource viewModel}}">
+            <Grid DataContext="{Binding Source={StaticResource viewModel}}" x:Name="Main">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
